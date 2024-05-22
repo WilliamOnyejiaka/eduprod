@@ -3,6 +3,7 @@ import morgan from "morgan";
 import { redisConfig,corsConfig } from "./config";
 import Redis from 'ioredis';
 import { auth } from "./routes";
+import { User } from "./models";
 
 
 function createApp() {
@@ -24,7 +25,7 @@ function createApp() {
             // await redisClient.set("user", "wonder");
             return res.status(200).json({
                 'error': false,
-                'message': "m.create()"
+                'message': await (new User()).create()
             });
         } catch (err) {
             console.error('Error creating item:', err);
