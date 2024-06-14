@@ -18,6 +18,7 @@ class Authentication {
         const result = await user.insert(signUpData);
         let statusCode = result.error ? 500 : 200;
         const userData = result.data?.rows[0];
+        delete userData.password;
 
         return {
             statusCode: statusCode,
