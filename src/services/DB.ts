@@ -6,6 +6,7 @@ class DB {
         const createdAll = [
             await (new User()).create(),
             await (new OAuthUser()).create(),
+            await (new ProfilePic()).create(),
         ];
 
         return createdAll.includes(false) ?
@@ -28,8 +29,9 @@ class DB {
 
     public static async drop(){
         const createdAll = [
-            await (new User()).drop(),
             await (new OAuthUser()).drop(),
+            await (new ProfilePic()).drop(),
+            await (new User()).drop(),
         ];
 
         return createdAll.includes(false) ?

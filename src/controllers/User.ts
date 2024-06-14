@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import sharp from "sharp";
 import * as fs from "fs";
+import { ProfilePic } from "../models";
 
 class User {
 
@@ -26,8 +27,10 @@ class User {
             if (fs.existsSync(filePath) && fs.existsSync(outputPath)) {
                 fs.unlinkSync(outputPath);
                 fs.unlinkSync(filePath);
-                // const profilePictureExists = await ProfilePicture.findOne({ userID: userID });
-                const profilePictureExists = false;
+
+                const profilePic = new ProfilePic();
+
+                const profilePictureExists = profilePic.getUserWithID(userID);
 
                 if (!profilePictureExists) {
                     return res.status(200).send(base64Data);

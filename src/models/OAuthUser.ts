@@ -9,7 +9,8 @@ class OAuthUser extends Model {
             id SERIAL PRIMARY KEY,
             oauth_id TEXT NOT NULL UNIQUE,
             email TEXT UNIQUE NOT NULL,
-            CONSTRAINT fk_oauth_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+            user_id INTEGER,
+            CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
             created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP
         )`;

@@ -66,8 +66,8 @@ class Authentication {
         const userExists: boolean = currentUserData.data!.rows[0] ? true : false;
 
         if (!userExists) {
-            const result = await oauthUser.insert([oauthID, email]);
-            if (result.error) {
+            const userResult = await user.insert([name, email, "oauth"]);
+            if (userResult.error) {
                 return {
                     statusCode: 500,
                     json: {
@@ -77,12 +77,10 @@ class Authentication {
                 };
             }
 
-            const userResult = await user.insert([name, email, "oauth"]);
             const userData = userResult.data?.rows[0];
-            delete userData.password;
-            const token = Token.createToken(userData);
+            const result = await oauthUser.insert([oauthID, email,userData.id]);
 
-            if (userResult.error) {
+            if (result.error) {
                 return {
                     statusCode: 500,
                     json: {
@@ -91,6 +89,9 @@ class Authentication {
                     }
                 }
             } else {
+                delete userData.password;
+                const token = Token.createToken(userData);
+
                 return {
                     statusCode: 200,
                     json: {
